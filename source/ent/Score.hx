@@ -44,7 +44,6 @@ class Score extends FlxText {
 		text = Std.string(score);
 		
 		x = Math.floor(FlxG.width - width * scale.x - MARGIN);
-		y = Math.floor(MARGIN / 2);
 		
 		super.update();
 	}

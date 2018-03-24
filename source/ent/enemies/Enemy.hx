@@ -15,9 +15,12 @@ import flixel.util.FlxTimer;
  */
 class Enemy extends FlxSprite {
 
+	public var points:Int;
+	
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
 		Reg.s.enemies.add(this);
+		points = 0;
 	}
 	
 	public function onHit(Bullet:CDRomBullet):Void {
@@ -38,6 +41,8 @@ class Enemy extends FlxSprite {
 	}
 	
 	private function die():Void {
+		Reg.s.s.addScore(points);
+		
 		alive = false;
 		acceleration.set();
 		animation.play("dead", true);

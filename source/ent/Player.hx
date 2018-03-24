@@ -27,21 +27,6 @@ class Player extends FlxSprite {
 	public var dustTrail:DustTrail;
 	public var gunTrail:GunTrail;
 	
-	public var hp(get, set):Int;
-	private var _hp:Int = 3;
-	public function get_hp():Int {
-		return _hp;
-	}
-	public function set_hp(HP:Int):Int {
-		_hp = HP;
-		if (_hp > 3)
-			_hp = 3;
-		else if (_hp < 0)
-			_hp = 0;
-		Reg.s.healthBar.setLives(_hp);
-		return _hp;
-	}
-	
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y);
 		setAnim();
@@ -134,12 +119,13 @@ class Player extends FlxSprite {
 	
 	public function onHit():Void {
 		if (!FlxSpriteUtil.isFlickering(this)) {
-			hp--;
 			FlxSpriteUtil.flicker(this, 1, 0.04);
 			FlxG.camera.shake(0.005, 0.5);
 			
 			var mid:FlxPoint = getMidpoint();
 			new BloodSplatter(mid.x, mid.y);
+			
+			Reg.s.healthBar.decrement();
 		}
 	}
 }

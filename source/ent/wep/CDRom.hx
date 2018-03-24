@@ -27,7 +27,6 @@ class CDRom extends Weapon {
 	override public function update():Void {
 		if ((ammo == Weapon.INFINITY_AMMO || ammo > 0) && FlxG.mouse.justPressed) {
 			fire(new FlxPoint(FlxG.mouse.x - p.x, FlxG.mouse.y - p.y));
-			Reg.s.s.addScore(10);
 		}
 	}
 	

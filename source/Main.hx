@@ -25,7 +25,9 @@ class Main extends Sprite {
 	static private function ensureCompilation():Void {
 		// Entities
 		Spawn;
+		ZombieFast;
 		ZombieSlow;
+		ZombieSmart;
 		
 		// Props
 		Bookcase1;

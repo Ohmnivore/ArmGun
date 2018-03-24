@@ -81,7 +81,6 @@ class PlayState extends FlxState {
 		s = new Score();
 		hud.add(s);
 		
-		p.hp--;
 		p.curWeap = new CDRom(p);
 		
 		FlxG.autoPause = false;
@@ -89,7 +88,8 @@ class PlayState extends FlxState {
 	
 	private function getMapString():String {
 		//return Assets.getText("assets/data/test.oel");
-		return Assets.getText("assets/data/test2.oel");
+		//return Assets.getText("assets/data/test2.oel");
+		return Assets.getText("assets/data/test3.oel");
 	}
 
 	override public function update():Void {
