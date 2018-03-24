@@ -23,10 +23,23 @@ class Main extends Sprite {
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	
 	static private function ensureCompilation():Void {
+		// Entities
 		Spawn;
-		Desk1;
-		Chair1;
 		ZombieSlow;
+		
+		// Props
+		Bookcase1;
+		Bookcase2;
+		Chair1;
+		Couch1;
+		Counter1;
+		Desk1;
+		Dryer1;
+		Sink1;
+		Table1;
+		Table2;
+		ToiletBowl1;
+		Whiteboard1;
 	}
 	
 	// You can pretty much ignore everything from here on - your code should go in your states.

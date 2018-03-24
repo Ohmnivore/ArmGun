@@ -3,6 +3,7 @@ package;
 import ent.Cursor;
 import ent.HealthBar;
 import ent.Player;
+import ent.Score;
 import ent.ZeldaDrawGroup;
 import ent.enemies.Enemy;
 import ent.wep.CDRom;
@@ -22,6 +23,7 @@ import util.OgmoLoader;
 class PlayState extends FlxState {
 	
 	public var p:Player;
+	public var s:Score;
 	
 	public var map:FlxTilemap;
 	public var ents:ZeldaDrawGroup;
@@ -76,6 +78,8 @@ class PlayState extends FlxState {
 		healthBar = new HealthBar();
 		hud.add(healthBar);
 		add(new Cursor());
+		s = new Score();
+		hud.add(s);
 		
 		p.hp--;
 		p.curWeap = new CDRom(p);

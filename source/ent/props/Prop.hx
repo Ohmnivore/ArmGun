@@ -18,4 +18,10 @@ class Prop extends FlxSprite {
 		offset.y += Offset;
 		y += Offset;
 	}
+	
+	public function setBaseHeight(Height:Float):Void {
+		offset.y = height - Height;
+		height = Height;
+		y += offset.y;
+	}
 }
