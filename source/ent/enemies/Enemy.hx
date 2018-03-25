@@ -36,6 +36,7 @@ class Enemy extends FlxSprite {
 		var mid:FlxPoint = getMidpoint();
 		new BloodSplatter(mid.x, mid.y);
 		
+		B.bounces++;
 		health -= B.dmg;
 		freeze += B.freeze * B.effectChance;
 		freeze = Math.min(1.0, freeze);

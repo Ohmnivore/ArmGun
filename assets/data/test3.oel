@@ -101,12 +101,27 @@
     <props.Chair1 id="53" x="654" y="586" />
     <props.Chair1 id="54" x="663" y="614" />
     <props.Table2 id="55" x="429" y="542" />
-    <enemies.ZombieFast id="56" x="262" y="147" />
-    <enemies.ZombieFast id="57" x="235" y="144" />
-    <enemies.ZombieFast id="58" x="251" y="162" />
-    <enemies.ZombieSlow id="59" x="262" y="129" />
-    <enemies.ZombieSlow id="60" x="218" y="151" />
-    <enemies.ZombieSlow id="61" x="276" y="160" />
-    <enemies.ZombieSmart id="62" x="200" y="116" />
+    <ESpawnDown id="63" x="100" y="69" />
+    <ESpawnDown id="64" x="398" y="69" />
+    <ESpawnDown id="65" x="543" y="68" />
+    <ESpawnDown id="66" x="687" y="66" />
+    <ESpawnDown id="67" x="837" y="68" />
+    <ESpawnUp id="69" x="104" y="159" />
+    <ESpawnDown id="73" x="454" y="431" />
+    <ESpawnDown id="74" x="750" y="426" />
+    <ESpawnUp id="75" x="593" y="679" />
+    <ESpawnUp id="76" x="778" y="680" />
+    <ESpawnRight id="80" x="717" y="171" />
+    <ESpawnUp id="81" x="538" y="300" />
+    <ESpawnUp id="82" x="739" y="302" />
+    <ESpawnUp id="83" x="434" y="297" />
+    <ESpawnRight id="57" x="363" y="478" />
+    <ESpawnRight id="58" x="361" y="632" />
+    <ESpawnRight id="59" x="264" y="273" />
+    <ESpawnRight id="60" x="70" y="119" />
+    <ESpawnLeft id="56" x="908" y="228" />
+    <ESpawnLeft id="61" x="906" y="109" />
+    <ESpawnLeft id="62" x="839" y="476" />
+    <ESpawnLeft id="68" x="839" y="599" />
   </Ents>
 </level>

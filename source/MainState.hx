@@ -10,26 +10,32 @@ import flixel.util.FlxTimer;
  * ...
  * @author ...
  */
-class GameOverState extends FlxState {
+class MainState extends FlxState {
 
 	override public function create():Void {
 		super.create();
 		
+		FlxG.mouse.visible = false;
 		FlxG.camera.bgColor = 0xff000000;
 		FlxG.camera.fade(0xff000000, 0.5, true);
 		
-		var t1 = new FlxText(0, 0, 0, "Critical structure damage. Powering down...");
+		var t1 = new FlxText(0, 0, 0, "[ Welcome to ArmGun ]");
 		add(t1);
 		UIUtils.centerScreenX(t1);
 		
-		var t2 = new FlxText(0, 0, 0, "Total funds acquired: " + Std.string(Reg.finalScore));
+		var t2 = new FlxText(0, 0, 0, "[ Upgrade your ArmGun with funds ]      [ Eliminate intruders to acquire funds ]​");
 		add(t2);
 		UIUtils.centerScreenX(t2);
 		UIUtils.centerScreenY(t2);
 		
 		t1.y = t2.y - t1.height - UIUtils.MARGIN;
 		
-		var btn = new FlxButton(0, 0, "Play again", function() {
+		var t3 = new FlxText(0, 0, 0, "[ Arrows/WASD to move ]      [ Space/Tab/F to open/close shop ]      [ Mouse to aim/shoot ]");
+		add(t3);
+		UIUtils.centerScreenX(t3);
+		t3.y = FlxG.height - t3.height - 6;
+		
+		var btn = new FlxButton(0, 0, "Start", function() {
 			FlxG.camera.fade(0xff000000, 0.5, false, function() {
 				FlxG.switchState(new PlayState());
 			});

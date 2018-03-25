@@ -113,6 +113,8 @@ class ShopState extends FlxSubState {
 	}
 	
 	private function returnToGame():Void {
+		FlxTimer.manager.active = true;
+		
 		mainGroup.visible = false;
 		active = false;
 		
@@ -199,6 +201,12 @@ class WarningMsg extends FlxText {
 		});
 		
 		curMsg = this;
+	}
+	
+	override public function update():Void {
+		super.update();
+		
+		destroyTimer.update(); // TimerManager is disabled
 	}
 	
 	override public function destroy():Void {

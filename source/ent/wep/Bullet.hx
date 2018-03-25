@@ -19,7 +19,7 @@ class Bullet extends FlxSprite {
 	public var speed:Float;
 	public var morph:Float;
 	
-	private var bounces:Int = 0;
+	public var bounces:Int = 0;
 	
 	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y, "assets/images/bullet.png");
