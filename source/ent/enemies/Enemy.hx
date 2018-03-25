@@ -83,7 +83,7 @@ class Enemy extends FlxSprite {
 		solid = false;
 		
 		new FlxTimer(5.0, function(T:FlxTimer) {
-			FlxTween.tween(this, { "alpha": 0 }, 2, { ease: FlxEase.circOut });
+			FlxTween.tween(this, { "alpha": 0.0 }, 2, { ease: FlxEase.circOut });
 		});
 		
 		var angleDelta:Float = 90;
@@ -95,8 +95,11 @@ class Enemy extends FlxSprite {
 			FlxTween.tween(offset, { "y": offset.y - 8 }, 0.2, { ease: FlxEase.bounceOut });
 		}});
 		
-		new FlxTimer(6.0, function(T:FlxTimer) {
+		new FlxTimer(7.1, function(T:FlxTimer) {
+			Reg.s.ents.remove(this, true);
 			Reg.s.enemies.remove(this, true);
+			kill();
+			destroy();
 		});
 	}
 	

@@ -228,6 +228,8 @@ class MorphState extends FSMState {
 		super();
 		z = Z;
 		
+		z.acceleration.set();
+		
 		z.loadGraphic("assets/images/morph.png", true, 38, 26);
 		var rand = FlxRandom.intRanged(0, 2);
 		z.animation.add("idle", [rand]);
