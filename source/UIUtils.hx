@@ -20,6 +20,7 @@ class UIUtils {
 	static public function setButtonGfx(btn:FlxButton) {
 		btn.loadGraphic('assets/images/btn.png', true, 80, 20);
 		btn.labelAlphas = [1.0, 1.0, 1.0];
+		btn.label.alpha = btn.labelAlphas[0];
 		btn.labelOffsets = [FlxPoint.get(-1, 3), FlxPoint.get(-1, 3), FlxPoint.get(-1, 3)];
 		setLabelGfx(btn.label);
 	}

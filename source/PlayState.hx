@@ -130,6 +130,8 @@ class PlayState extends FlxState {
 	private function handleGeneralInput():Void {
 		if (FlxG.keys.justPressed.R)
 			FlxG.resetState();
+		else if (FlxG.keys.justPressed.F12) // Hack
+			s.score += 100;
 		#if sys
 		else if (FlxG.keys.justPressed.ESCAPE)
 			Sys.exit(0);
@@ -152,5 +154,6 @@ class PlayState extends FlxState {
 	private function updateCursorVisibility():Void {
 		// Substates will have their own cursors, so hide this one
 		cursor.visible = subState == null;
+		cursor.update();
 	}
 }
