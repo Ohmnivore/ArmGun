@@ -51,8 +51,8 @@ class SmartRunState extends FSMState {
 		var zPos = z.getMidpoint();
 		
 		var vx = new FlxVector(pPos.x - zPos.x, pPos.y - zPos.y);
-		vx = vx.normalize();
-		vx = vx.scale(RUNSPEED * (1.0 - z.freeze));
+		vx.normalize();
+		vx.scale(RUNSPEED * (1.0 - z.freeze));
 		z.velocity.copyFrom(vx);
 		
 		if (z.animation.name == "run") {

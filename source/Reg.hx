@@ -13,22 +13,27 @@ class Reg {
 		upgrades = [];
 		
 		upgrades.push(new UpgradeInfo(enableSuperSemi, "Super semi", 50, "Quick firing rate with moderate damage."));
-		upgrades.push(new UpgradeInfo(enableMachineGun, "Machine gun", 100, "Whirlwhind firing rate with low damage."));
+		upgrades.push(new UpgradeInfo(enableMachineGun, "Machine gun", 150, "Whirlwhind firing rate with low damage."));
 		upgrades.push(new UpgradeInfo(enableFreezeAmmo, "Freeze ammo", 100, "Bullets freeze enemies, slowing their movement."));
-		upgrades.push(new UpgradeInfo(enableMorphAmmo, "Morph ammo", 200, "Bullets have a chance to morph enemies into farm animals."));
-		upgrades.push(new UpgradeInfo(enableBouncingAmmo, "Bouncing ammo", 200, "Bullets bounce off of objects."));
+		upgrades.push(new UpgradeInfo(enableMorphAmmo, "Morph ammo", 150, "Bullets have a chance to morph enemies into farm animals."));
+		upgrades.push(new UpgradeInfo(enableBouncingAmmo, "Bouncing ammo", 25, "Bullets bounce off of objects."));
+		upgrades.push(new UpgradeInfo(enableShotgunAmmo, "Shotgun ammo", 200, "Bullets are fired in three directions at once."));
 		
 		upgrades.sort(UpgradeInfo.compareCost);
 	}
 	
 	static private function enableSuperSemi():Void {
 		s.p.weapon.dmg = 0.75;
+		s.p.weapon.effectChance = 0.75;
 		s.p.weapon.reloadTime = 0.25;
+		s.p.weapon.speed = 300.0;
 	}
 	
 	static private function enableMachineGun():Void {
-		s.p.weapon.dmg = 0.1;
+		s.p.weapon.dmg = 0.15;
+		s.p.weapon.effectChance = 0.4;
 		s.p.weapon.reloadTime = 0.1;
+		s.p.weapon.speed = 200.0;
 	}
 	
 	static private function enableFreezeAmmo():Void {
@@ -36,11 +41,15 @@ class Reg {
 	}
 	
 	static private function enableMorphAmmo():Void {
-		// TODO
+		s.p.weapon.morph = 0.7;
 	}
 	
 	static private function enableBouncingAmmo():Void {
 		s.p.weapon.bounce = 0.5;
+	}
+	
+	static private function enableShotgunAmmo():Void {
+		s.p.weapon.shotgun = true;
 	}
 }
 

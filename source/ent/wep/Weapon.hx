@@ -4,6 +4,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.util.FlxPoint;
 import flixel.util.FlxTimer;
+import flixel.util.FlxVector;
 
 /**
  * ...
@@ -14,10 +15,14 @@ class Weapon {
 	
 	public var p:FlxSprite;
 	
-	public var dmg:Float = 1;
+	public var effectChance:Float = 1.0;
+	public var dmg:Float = 1.0;
 	public var reloadTime:Float = 0.5;
 	public var bounce:Float = 0.0;
 	public var freeze:Float = 0.0;
+	public var speed:Float = 256.0;
+	public var morph:Float = 0.0;
+	public var shotgun:Bool = false;
 	
 	private var reload:FlxTimer;
 	
@@ -42,10 +47,34 @@ class Weapon {
 			else
 				p.facing = FlxObject.RIGHT;
 			
-			var bullet = new Bullet(dmg);
-			bullet.fireTowards(p, Delta.x, Delta.y);
-			bullet.elasticity = bounce;
-			bullet.freeze = freeze;
+			var dir = new FlxVector();
+			dir.copyFrom(Delta);
+			dir.normalize();
+			
+			var bullet = new Bullet();
+			setBulletProperties(bullet);
+			bullet.fireTowards(p, dir);
+			
+			if (shotgun) {
+				var bullet2 = new Bullet();
+				setBulletProperties(bullet2);
+				dir.rotateByDegrees(-15.0);
+				bullet2.fireTowards(p, dir);
+				
+				var bullet3 = new Bullet();
+				setBulletProperties(bullet3);
+				dir.rotateByDegrees(30.0);
+				bullet3.fireTowards(p, dir);
+			}
 		}
+	}
+	
+	private function setBulletProperties(B:Bullet):Void {
+		B.dmg = dmg;
+		B.speed = speed;
+		B.elasticity = bounce;
+		B.freeze = freeze;
+		B.morph = morph;
+		B.effectChance = effectChance;
 	}
 }

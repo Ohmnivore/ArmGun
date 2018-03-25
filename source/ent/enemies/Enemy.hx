@@ -8,6 +8,7 @@ import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxPoint;
+import flixel.util.FlxRandom;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 
@@ -36,11 +37,12 @@ class Enemy extends FlxSprite {
 		new BloodSplatter(mid.x, mid.y);
 		
 		health -= B.dmg;
-		freeze += B.freeze * B.dmg;
+		freeze += B.freeze * B.effectChance;
 		freeze = Math.min(1.0, freeze);
-		
-		if (fsm.peak() != MorphState) {
-			fsm.pushState(new MorphState(cast this));
+		if (FlxRandom.floatRanged(0.0, 1.0) <= B.morph * B.effectChance) {
+			if (fsm.peak() != MorphState) {
+				fsm.pushState(new MorphState(cast this));
+			}
 		}
 		
 		if (health > 0) {

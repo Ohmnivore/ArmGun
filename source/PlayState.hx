@@ -1,5 +1,6 @@
 package;
 
+import ent.BloodSplatter;
 import ent.CogBtn;
 import ent.Cursor;
 import ent.HealthBar;
@@ -45,6 +46,8 @@ class PlayState extends FlxState {
 		
 		Reg.init();
 		Reg.s = this;
+		
+		BloodSplatter.reset();
 		
 		FlxG.camera.fade(0xff000000, 0.5, true);
 		

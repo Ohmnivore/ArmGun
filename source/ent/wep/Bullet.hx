@@ -13,14 +13,16 @@ import flixel.util.FlxVector;
  */
 class Bullet extends FlxSprite {
 	
+	public var effectChance:Float;
 	public var dmg:Float;
 	public var freeze:Float;
+	public var speed:Float;
+	public var morph:Float;
 	
 	private var bounces:Int = 0;
 	
-	public function new(Dmg:Float, X:Float = 0, Y:Float = 0) {
+	public function new(X:Float = 0, Y:Float = 0) {
 		super(X, Y, "assets/images/bullet.png");
-		dmg = Dmg;
 		height = 5;
 		offset.y = 6;
 		
@@ -41,7 +43,7 @@ class Bullet extends FlxSprite {
 			else {
 				var v = new FlxVector();
 				v.set(velocity.x, velocity.y);
-				v = v.normalize();
+				v.normalize();
 				angle = v.degrees;
 				
 				bounces++;
@@ -52,26 +54,18 @@ class Bullet extends FlxSprite {
 			super.update();
 	}
 	
-	public function fireTowards(P:FlxObject, Dx:Float, Dy:Float):Void {
+	public function fireTowards(P:FlxObject, Dir:FlxVector):Void {
 		var mid = P.getMidpoint();
 		x = mid.x - width / 2;
 		y = mid.y - height / 2;
 		
-		var v = new FlxVector(Dx, Dy);
-		v.normalize();
+		var v = new FlxVector();
+		v.copyFrom(Dir);
 		
 		angle = v.degrees;
 		
-		v.scale(256);
+		v.scale(speed);
 		velocity.copyFrom(v);
-	}
-	
-	public function fireTowardsMouse(P:FlxObject):Void {
-		var mid = P.getMidpoint();
-		
-		var dx:Float = FlxG.mouse.x - mid.x;
-		var dy:Float = FlxG.mouse.y - mid.y;
-		fireTowards(P, dx, dy);
 	}
 }
 
@@ -85,13 +79,14 @@ class BulletTrail extends FlxEmitter {
 		
 		for (i in 0...16) {
 			var p = new FlxParticle();
-			p.makeGraphic(2, 2, 0xff9badb7);
+			p.makeGraphic(2, 2, 0xff5fcde4);
 			add(p);
 		}
 		
 		setXSpeed();
 		setYSpeed();
 		setRotation();
+		setScale(1.0, 1.0, 2.0, 2.0);
 		setAlpha(1.0, 1.0, 0.0, 0.0);
 		start(false, 0.5, 0.08, 0, 0);
 		
@@ -121,28 +116,26 @@ class BulletExplosion extends FlxEmitter {
 		mid.y -= 6;
 		super(mid.x, mid.y);
 		
-		var particleColors:Array<Int> = [0xffcbdbfc, 0xffcbdbfc, 0xff5fcde4, 0xffd77bba];
-		for (c in particleColors) {
+		for (i in 0...8) {
 			var p = new FlxParticle();
-			p.makeGraphic(2, 2, c);
+			p.makeGraphic(3, 3, 0xff5fcde4);
 			add(p);
 		}
 		
-		var s:Int = 256;
+		var s:Int = 200;
 		setXSpeed(-s, s);
 		setYSpeed( -s, s);
 		setRotation();
-		setAlpha(1, 1, 0.5, 0.5);
+		setScale(1.0, 1.0, 2.0, 2.0);
+		setAlpha(1, 1, 0.0, 0.0);
 		
 		start(true, 0.1, 0.1, 0, 0.1);
 		new FlxTimer(0.2, function(T:FlxTimer):Void {
 			Reg.s.ents.remove(this, true);
-			Reg.s.emitters.remove(this, true);
 			kill();
 			destroy();
 		});
 		
 		Reg.s.ents.add(this);
-		Reg.s.emitters.add(this);
 	}
 }

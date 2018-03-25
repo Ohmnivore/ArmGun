@@ -154,8 +154,8 @@ class RunState extends FSMState {
 		var zPos:FlxPoint = z.getMidpoint();
 		
 		var vx:FlxVector = new FlxVector(pPos.x - zPos.x, pPos.y - zPos.y);
-		vx = vx.normalize();
-		vx = vx.scale(RUNSPEED * (1.0 - z.freeze));
+		vx.normalize();
+		vx.scale(RUNSPEED * (1.0 - z.freeze));
 		z.acceleration.copyFrom(vx);
 		
 		if (z.animation.name == "run") {

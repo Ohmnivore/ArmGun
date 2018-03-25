@@ -10,6 +10,14 @@ import flixel.util.FlxTimer;
  */
 class BloodSplatter extends FlxEmitter {
 
+	static private var list:Array<BloodSplatter> = [];
+	
+	private var timer:FlxTimer;
+	
+	static public function reset():Void {
+		list = [];
+	}
+	
 	public function new(X:Float, Y:Float) {
 		super(X, Y, 16);
 		for (i in 0...maxSize) {
@@ -26,11 +34,27 @@ class BloodSplatter extends FlxEmitter {
 		Reg.s.ents.add(this);
 		Reg.s.emitters.add(this);
 		
-		new FlxTimer(4.0, function(T:FlxTimer):Void {
-			Reg.s.ents.remove(this, true);
-			Reg.s.emitters.remove(this, true);
-			kill();
-			destroy();
+		timer = new FlxTimer(4.0, function(T:FlxTimer):Void {
+			list.splice(list.indexOf(this), 1);
+			delete();
 		});
+		
+		list.push(this);
+		while (list.length > 6) {
+			var splatter = list.shift();
+			splatter.cancelTimer();
+			splatter.delete();
+		}
+	}
+	
+	private function cancelTimer():Void {
+		timer.cancel();
+	}
+	
+	private function delete():Void {
+		Reg.s.ents.remove(this, true);
+		Reg.s.emitters.remove(this, true);
+		kill();
+		destroy();
 	}
 }

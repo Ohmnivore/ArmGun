@@ -89,8 +89,8 @@ class Player extends FlxSprite {
 		}
 		
 		if (vx.x != 0.0 || vx.y != 0.0) {
-			vx = vx.normalize();
-			vx = vx.scale(RUNSPEED);
+			vx.normalize();
+			vx.scale(RUNSPEED);
 			velocity.copyFrom(vx);
 		}
 		else {
