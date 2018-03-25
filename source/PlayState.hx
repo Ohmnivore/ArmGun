@@ -25,6 +25,9 @@ class PlayState extends FlxState {
 	
 	public var p:Player;
 	public var s:Score;
+	public var healthBar:HealthBar;
+	public var cogBtn:CogBtn;
+	public var cursor:Cursor;
 	
 	public var map:FlxTilemap;
 	public var ents:ZeldaDrawGroup;
@@ -34,7 +37,6 @@ class PlayState extends FlxState {
 	public var bullets:FlxGroup;
 	public var enemies:FlxTypedGroup<Enemy>;
 	public var hud:FlxGroup;
-	public var healthBar:HealthBar;
 	
 	private var transitioningToGameOver:Bool;
 	
@@ -82,15 +84,15 @@ class PlayState extends FlxState {
 		add(hud);
 		healthBar = new HealthBar();
 		hud.add(healthBar);
-		hud.add(new CogBtn());
+		cogBtn = new CogBtn();
+		hud.add(cogBtn);
 		s = new Score();
 		hud.add(s);
 		
 		p.weapon = new Weapon(p);
 		
-		FlxG.autoPause = false;
-		
-		add(new Cursor());
+		cursor = new Cursor();
+		add(cursor);
 	}
 	
 	private function getMapString():String {
@@ -112,6 +114,12 @@ class PlayState extends FlxState {
 		
 		handleGeneralInput();
 		pollGameOver();
+	}
+	
+	override public function draw():Void {
+		updateCursorVisibility();
+		
+		super.draw();
 	}
 	
 	private function enemyHit(Bullet:FlxBasic, Enem:FlxBasic):Void {
@@ -139,5 +147,10 @@ class PlayState extends FlxState {
 				FlxG.switchState(new GameOverState());
 			});
 		}
+	}
+	
+	private function updateCursorVisibility():Void {
+		// Substates will have their own cursors, so hide this one
+		cursor.visible = subState == null;
 	}
 }

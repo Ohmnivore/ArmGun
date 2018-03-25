@@ -14,12 +14,18 @@ class Cursor extends FlxSprite {
 		loadGraphic("assets/images/cursor.png", true, 24, 24);
 		animation.add("bounce", [0, 1], 1, true);
 		animation.play("bounce");
+		
+		setPosFromMouse();
 	}
 	
 	override public function update():Void {
-		x = FlxG.mouse.x - width / 2;
-		y = FlxG.mouse.y - height / 2;
+		setPosFromMouse();
 		
 		super.update();
+	}
+	
+	private function setPosFromMouse():Void {
+		x = FlxG.mouse.x - width / 2;
+		y = FlxG.mouse.y - height / 2;
 	}
 }

@@ -26,7 +26,7 @@ class Weapon {
 	}
 	
 	public function update():Void {
-		if (FlxG.mouse.justPressed) {
+		if (FlxG.mouse.justPressed && !Reg.s.cogBtn.containsMouse()) {
 			fire(new FlxPoint(FlxG.mouse.x - p.x, FlxG.mouse.y - p.y));
 		}
 	}
