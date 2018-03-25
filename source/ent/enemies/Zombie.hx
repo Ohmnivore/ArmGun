@@ -3,7 +3,6 @@ import ent.FSM;
 import ent.FSMState;
 import ent.Player;
 import ent.enemies.Enemy;
-import ent.wep.CDRom.CDRomBullet;
 import flixel.FlxObject;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;

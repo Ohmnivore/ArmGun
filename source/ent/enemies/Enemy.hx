@@ -1,6 +1,6 @@
 package ent.enemies;
 import ent.BloodSplatter;
-import ent.wep.CDRom.CDRomBullet;
+import ent.wep.Bullet;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
@@ -23,11 +23,11 @@ class Enemy extends FlxSprite {
 		points = 0;
 	}
 	
-	public function onHit(Bullet:CDRomBullet):Void {
+	public function onHit(B:Bullet):Void {
 		var mid:FlxPoint = getMidpoint();
 		new BloodSplatter(mid.x, mid.y);
 		
-		health -= Bullet.dmg;
+		health -= B.dmg;
 		
 		if (health > 0) {
 			FlxSpriteUtil.flicker(this, 0.5);

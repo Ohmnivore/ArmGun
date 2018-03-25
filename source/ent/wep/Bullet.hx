@@ -1,71 +1,34 @@
 package ent.wep;
-import flixel.effects.particles.FlxEmitter;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.effects.particles.FlxEmitter;
 import flixel.effects.particles.FlxParticle;
-import flixel.util.FlxPoint;
 import flixel.util.FlxTimer;
 import flixel.util.FlxVector;
 
 /**
  * ...
- * @author Ohmnivore
+ * @author ...
  */
-
-class CDRom extends Weapon {
+class Bullet extends FlxSprite {
 	
-	private var RELOAD_TIME:Float = 0.5;
+	public var dmg:Float;
 	
-	private var reload:FlxTimer;
-	
-	public function new(P:FlxSprite) {
-		super(P);
-		reload = new FlxTimer(RELOAD_TIME);
-	}
-	
-	override public function update():Void {
-		if ((ammo == Weapon.INFINITY_AMMO || ammo > 0) && FlxG.mouse.justPressed) {
-			fire(new FlxPoint(FlxG.mouse.x - p.x, FlxG.mouse.y - p.y));
-		}
-	}
-	
-	private function fire(Delta:FlxPoint):Void {
-		if (reload.finished) {
-			reload.start(RELOAD_TIME);
-			
-			if (Delta.x < 0)
-				p.facing = FlxObject.LEFT;
-			else
-				p.facing = FlxObject.RIGHT;
-			
-			var cd:CDRomBullet = new CDRomBullet(dmg);
-			cd.fireTowards(p, Delta.x, Delta.y);
-			
-			if (ammo > 0)
-				ammo--;
-		}
-	}
-}
-
-class CDRomBullet extends FlxSprite {
-	
-	public var dmg:Int;
-	
-	public function new(Dmg:Int, X:Float = 0, Y:Float = 0) {
-		super(X, Y, "assets/images/cdrom.png");
+	public function new(Dmg:Float, X:Float = 0, Y:Float = 0) {
+		super(X, Y, "assets/images/bullet.png");
 		dmg = Dmg;
 		height = 5;
 		offset.y = 6;
 		
-		new CDRomTrail(this);
+		new BulletTrail(this);
 		Reg.s.ents.add(this);
 		Reg.s.bullets.add(this);
 	}
 	
 	override public function update():Void {
 		if (isTouching(FlxObject.ANY)) {
-			var explo:CDRomExplosion = new CDRomExplosion(this);
+			var explo:BulletExplosion = new BulletExplosion(this);
 			Reg.s.ents.remove(this, true);
 			Reg.s.bullets.remove(this, true);
 			kill();
@@ -77,18 +40,21 @@ class CDRomBullet extends FlxSprite {
 	}
 	
 	public function fireTowards(P:FlxObject, Dx:Float, Dy:Float):Void {
-		var mid:FlxPoint = P.getMidpoint();
+		var mid = P.getMidpoint();
 		x = mid.x - width / 2;
 		y = mid.y - height / 2;
 		
-		var v:FlxVector = new FlxVector(Dx, Dy);
+		var v = new FlxVector(Dx, Dy);
 		v.normalize();
+		
+		angle = v.degrees;
+		
 		v.scale(256);
 		velocity.copyFrom(v);
 	}
 	
 	public function fireTowardsMouse(P:FlxObject):Void {
-		var mid:FlxPoint = P.getMidpoint();
+		var mid = P.getMidpoint();
 		
 		var dx:Float = FlxG.mouse.x - mid.x;
 		var dy:Float = FlxG.mouse.y - mid.y;
@@ -96,16 +62,16 @@ class CDRomBullet extends FlxSprite {
 	}
 }
 
-class CDRomTrail extends FlxEmitter {
+class BulletTrail extends FlxEmitter {
 	
-	public var p:CDRomBullet;
+	public var p:Bullet;
 	
-	public function new(P:CDRomBullet) {
+	public function new(P:Bullet) {
 		super();
 		p = P;
 		
 		for (i in 0...16) {
-			var p:FlxParticle = new FlxParticle();
+			var p = new FlxParticle();
 			p.makeGraphic(2, 2, 0xff9badb7);
 			add(p);
 		}
@@ -120,7 +86,7 @@ class CDRomTrail extends FlxEmitter {
 	}
 	
 	override public function update():Void {
-		var mid:FlxPoint = p.getMidpoint();
+		var mid = p.getMidpoint();
 		mid.y -= 6;
 		setPosition(mid.x, mid.y);
 		
@@ -135,16 +101,16 @@ class CDRomTrail extends FlxEmitter {
 	}
 }
 
-class CDRomExplosion extends FlxEmitter {
+class BulletExplosion extends FlxEmitter {
 	
-	public function new(P:CDRomBullet) {
-		var mid:FlxPoint = P.getMidpoint();
+	public function new(P:Bullet) {
+		var mid = P.getMidpoint();
 		mid.y -= 6;
 		super(mid.x, mid.y);
 		
 		var particleColors:Array<Int> = [0xffcbdbfc, 0xffcbdbfc, 0xff5fcde4, 0xffd77bba];
 		for (c in particleColors) {
-			var p:FlxParticle = new FlxParticle();
+			var p = new FlxParticle();
 			p.makeGraphic(2, 2, c);
 			add(p);
 		}

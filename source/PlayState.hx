@@ -1,12 +1,13 @@
 package;
 
+import ent.CogBtn;
 import ent.Cursor;
 import ent.HealthBar;
 import ent.Player;
 import ent.Score;
 import ent.ZeldaDrawGroup;
 import ent.enemies.Enemy;
-import ent.wep.CDRom;
+import ent.wep.Weapon;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -81,13 +82,15 @@ class PlayState extends FlxState {
 		add(hud);
 		healthBar = new HealthBar();
 		hud.add(healthBar);
-		add(new Cursor());
+		hud.add(new CogBtn());
 		s = new Score();
 		hud.add(s);
 		
-		p.curWeap = new CDRom(p);
+		p.weapon = new Weapon(p);
 		
 		FlxG.autoPause = false;
+		
+		add(new Cursor());
 	}
 	
 	private function getMapString():String {

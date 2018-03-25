@@ -22,7 +22,7 @@ class Player extends FlxSprite {
 	public static var VELDRAG:Float = 0.85;
 	public static var IDLETHRESHOLD:Float = 12;
 	
-	public var curWeap:Weapon;
+	public var weapon:Weapon;
 	
 	public var dustTrail:DustTrail;
 	public var gunTrail:GunTrail;
@@ -98,7 +98,7 @@ class Player extends FlxSprite {
 			velocity.y = velocity.y * VELDRAG;
 		}
 		
-		curWeap.update();
+		weapon.update();
 	}
 	
 	private function updateAnim():Void {
