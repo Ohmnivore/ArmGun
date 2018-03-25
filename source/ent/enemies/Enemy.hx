@@ -1,5 +1,6 @@
 package ent.enemies;
 import ent.BloodSplatter;
+import ent.enemies.Zombie.IdleState;
 import ent.enemies.Zombie.MorphState;
 import ent.wep.Bullet;
 import flixel.FlxG;
@@ -7,6 +8,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxPath;
 import flixel.util.FlxPoint;
 import flixel.util.FlxRandom;
 import flixel.util.FlxSpriteUtil;
@@ -20,6 +22,7 @@ class Enemy extends FlxSprite {
 
 	public var points:Int;
 	public var freeze:Float;
+	public var path:FlxPath;
 	
 	private var fsm:FSM;
 	
@@ -30,6 +33,8 @@ class Enemy extends FlxSprite {
 		freeze = 0.0;
 		
 		fsm = new FSM();
+		
+		Reg.s.numEnemies++;
 	}
 	
 	public function onHit(B:Bullet):Void {
@@ -65,6 +70,10 @@ class Enemy extends FlxSprite {
 			velocity.x *= (1.0 - freeze);
 			velocity.y *= (1.0 - freeze);
 		}
+		else {
+			velocity.x *= 0.85;
+			velocity.y *= 0.85;
+		}
 		
 		super.update();
 		
@@ -73,10 +82,15 @@ class Enemy extends FlxSprite {
 	}
 	
 	private function die():Void {
+		Reg.s.numEnemies--;
+		
 		if (fsm.peak() == MorphState) {
 			var morphState:MorphState = cast fsm.popState();
 			morphState.cancelMorph();
 		}
+		
+		if (path != null)
+			path.cancel();
 		
 		Reg.s.s.addScore(points);
 		

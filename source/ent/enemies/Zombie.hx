@@ -4,9 +4,11 @@ import ent.FSMState;
 import ent.Player;
 import ent.enemies.Enemy;
 import ent.enemies.Zombie.MorphState;
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxPath;
 import flixel.util.FlxPoint;
 import flixel.util.FlxRandom;
 import flixel.util.FlxTimer;
@@ -85,8 +87,12 @@ class Zombie extends Enemy {
 			
 			if (pos.distanceTo(srcPos) <= ALERT_RANGE) {
 				new FlxTimer(0.25, function(T:FlxTimer) {
-					if (fsm.peak() == IdleState)
+					if (fsm.peak() == IdleState) {
+						if (path != null) {
+							path.cancel();
+						}
 						fsm.pushState(createRunState(this));
+					}
 				});
 			}
 		}
@@ -117,6 +123,8 @@ class IdleState extends FSMState {
 	
 	public var z:Zombie;
 	
+	private var idleTimer:Float = 0.0;
+	
 	public function new(Z:Zombie) {
 		super();
 		z = Z;
@@ -129,8 +137,44 @@ class IdleState extends FSMState {
 		
 		var p:Player = Reg.s.p;
 		var dist:Float = z.getMidpoint().distanceTo(p.getMidpoint());
-		if (dist <= TRIGGER_DIST)
+		if (dist <= TRIGGER_DIST) {
 			fsm.pushState(z.createRunState(z));
+			
+			if (z.path != null) {
+				z.path.cancel();
+			}
+		}
+		else {
+			idleTimer += FlxG.elapsed;
+			if (idleTimer > 3.0 && z.alive) {
+				idleTimer = 0.0;
+				var p = Reg.s.map.findPath(z.getMidpoint(), p.getMidpoint(), true, false, false);
+				if (p.length > 0) {
+					if (z.path != null)
+						z.path.cancel();
+					
+					z.path = new FlxPath(z, p, 50, FlxPath.FORWARD, false);
+					z.immovable = false;
+				}
+			}
+		}
+		
+		// Duplicate code
+		if (z.animation.name == "run") {
+			if (z.velocity.x < 0)
+				z.facing = FlxObject.LEFT;
+			if (z.velocity.x > 0)
+				z.facing = FlxObject.RIGHT;
+		}
+		if (z.animation.name == "run" || z.animation.name == "idle" || z.animation.finished) {
+			if (Math.abs(z.velocity.x) < 6 && Math.abs(z.velocity.y) < 6)
+				z.animation.play("idle");
+			else
+				z.animation.play("run");
+		}
+		
+		if (z.path != null)
+			z.path.active = z.alive;
 	}
 }
 
@@ -227,6 +271,9 @@ class MorphState extends FSMState {
 	public function new(Z:Zombie) {
 		super();
 		z = Z;
+		
+		if (z.path != null)
+			z.path.cancel();
 		
 		z.acceleration.set();
 		

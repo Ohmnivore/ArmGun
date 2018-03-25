@@ -3,6 +3,7 @@ package;
 import ent.BloodSplatter;
 import ent.CogBtn;
 import ent.Cursor;
+import ent.ESpawn;
 import ent.HealthBar;
 import ent.Player;
 import ent.Score;
@@ -23,6 +24,8 @@ import util.OgmoLoader;
  * A FlxState which can be used for the actual gameplay.
  */
 class PlayState extends FlxState {
+	
+	public var numEnemies:Int = 0;
 	
 	public var p:Player;
 	public var s:Score;
@@ -119,6 +122,8 @@ class PlayState extends FlxState {
 		
 		handleGeneralInput();
 		pollGameOver();
+		
+		ESpawn.updateSpawns(s.totalScore);
 	}
 	
 	override public function draw():Void {

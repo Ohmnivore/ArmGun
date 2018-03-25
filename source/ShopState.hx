@@ -9,6 +9,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import Reg.UpgradeInfo;
+import flixel.util.FlxPath;
 import flixel.util.FlxTimer;
 
 /**
@@ -114,6 +115,7 @@ class ShopState extends FlxSubState {
 	
 	private function returnToGame():Void {
 		FlxTimer.manager.active = true;
+		FlxPath.manager.active = true;
 		
 		mainGroup.visible = false;
 		active = false;

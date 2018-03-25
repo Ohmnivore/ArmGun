@@ -1,6 +1,7 @@
 package ent;
 import flixel.FlxG;
 import flixel.ui.FlxButton;
+import flixel.util.FlxPath;
 import flixel.util.FlxTimer;
 
 /**
@@ -34,6 +35,7 @@ class CogBtn extends FlxButton {
 	
 	private function openShopState():Void {
 		FlxTimer.manager.active = false;
+		FlxPath.manager.active = false;
 		
 		Reg.s.openSubState(new ShopState());
 	}

@@ -17,8 +17,14 @@ class ESpawn extends FlxObject {
 	public var minImpulse:Float = 1000.0;
 	public var maxImpulse:Float = 2000.0;
 	
-	public var minSpawnDelay:Float = 3.0;
-	public var maxSpawnDelay:Float = 10.0;
+	public var minSpawnDelay:Float = 1.0;
+	public var maxSpawnDelay:Float = 8.0;
+	
+	public static var maxEnemies:Float;
+	
+	public static function updateSpawns(TotalScore:Float):Void {
+		maxEnemies = 4.0 * Math.sin(TotalScore / 25.0) + (TotalScore / 50.0) + 10.0;
+	}
 	
 	public function new(X:Float, Y:Float) {
 		super(X, Y, 11, 6);
@@ -34,7 +40,9 @@ class ESpawn extends FlxObject {
 		var spawnDelay = FlxRandom.floatRanged(minSpawnDelay, maxSpawnDelay);
 		
 		new FlxTimer(spawnDelay, function(T:FlxTimer){
-			spawn();
+			trace(maxEnemies, Reg.s.numEnemies);
+			if (Reg.s.numEnemies <= maxEnemies)
+				spawn();
 			scheduleSpawnTimer();
 		});
 	}

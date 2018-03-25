@@ -13,11 +13,11 @@ class Reg {
 		upgrades = [];
 		
 		upgrades.push(new UpgradeInfo(enableSuperSemi, "Super semi", 50, "Quick firing rate with moderate damage."));
-		upgrades.push(new UpgradeInfo(enableMachineGun, "Machine gun", 150, "Whirlwhind firing rate with low damage."));
-		upgrades.push(new UpgradeInfo(enableFreezeAmmo, "Freeze ammo", 100, "Bullets freeze enemies, slowing their movement."));
-		upgrades.push(new UpgradeInfo(enableMorphAmmo, "Morph ammo", 150, "Bullets have a chance to morph enemies into farm animals."));
-		upgrades.push(new UpgradeInfo(enableBouncingAmmo, "Bouncing ammo", 25, "Bullets bounce off of objects."));
-		upgrades.push(new UpgradeInfo(enableShotgunAmmo, "Shotgun ammo", 200, "Bullets are fired in three directions at once."));
+		upgrades.push(new UpgradeInfo(enableMachineGun, "Machine gun", 100, "Whirlwhind firing rate with low damage."));
+		upgrades.push(new UpgradeInfo(enableFreezeAmmo, "Freeze ammo", 30, "Bullets freeze enemies, slowing their movement."));
+		upgrades.push(new UpgradeInfo(enableMorphAmmo, "Morph ammo", 25, "Bullets have a chance to morph enemies into farm animals."));
+		upgrades.push(new UpgradeInfo(enableBouncingAmmo, "Bouncing ammo", 20, "Bullets bounce off of objects."));
+		upgrades.push(new UpgradeInfo(enableShotgunAmmo, "Shotgun ammo", 125, "Bullets are fired in three directions at once."));
 		
 		upgrades.sort(UpgradeInfo.compareCost);
 	}
