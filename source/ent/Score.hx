@@ -13,6 +13,7 @@ class Score extends FlxText {
 	public static var MARGIN:Int = 4;
 	
 	public var score:Int = 0;
+	public var totalScore:Int = 0;
 	
 	private var tween:FlxTween;
 	
@@ -29,6 +30,7 @@ class Score extends FlxText {
 	
 	public function addScore(Amount:Int):Void {
 		score += Amount;
+		totalScore += Amount;
 		
 		if (tween != null) {
 			tween.cancel();

@@ -33,7 +33,7 @@ class ShopState extends FlxSubState {
 		bg.makeGraphic(FlxG.width + overflow * 2, FlxG.height + overflow * 2, 0xff000000);
 		bg.alpha = 0.0;
 		
-		FlxTween.tween(bg, { "alpha": 0.8 }, 0.5, { ease: FlxEase.cubeIn, complete: function(T:FlxTween) {
+		FlxTween.tween(bg, { "alpha": 0.8 }, 0.2, { ease: FlxEase.cubeIn, complete: function(T:FlxTween) {
 			init();
 		}});
 		
@@ -94,12 +94,7 @@ class ShopState extends FlxSubState {
 	}
 	
 	private function onCloseBtn():Void {
-		mainGroup.visible = false;
-		active = false;
-		
-		FlxTween.tween(bg, { "alpha": 0.0 }, 0.5, { ease: FlxEase.cubeIn, complete: function(T:FlxTween) {
-			close();
-		}});
+		returnToGame();
 	}
 	
 	private function warnCallback(WarningText:String):Void {
@@ -112,6 +107,18 @@ class ShopState extends FlxSubState {
 		}
 		
 		super.update();
+		
+		if (FlxG.keys.justPressed.TAB || FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.F)
+			returnToGame();
+	}
+	
+	private function returnToGame():Void {
+		mainGroup.visible = false;
+		active = false;
+		
+		FlxTween.tween(bg, { "alpha": 0.0 }, 0.2, { ease: FlxEase.cubeIn, complete: function(T:FlxTween) {
+			close();
+		}});
 	}
 }
 
@@ -150,8 +157,9 @@ class UpgradeButton extends FlxButton {
 	private function onClick():Void {
 		if (!info.enabled) {
 			if (Reg.s.s.score - info.cost >= 0) {
-				info.enabled = true;
 				Reg.s.s.score -= info.cost;
+				info.enabled = true;
+				info.enableCallback();
 			}
 			else {
 				warnCallback("Insufficient funds. Eliminate intruders to acquire funds.");

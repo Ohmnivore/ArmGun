@@ -3,6 +3,7 @@ import ent.FSM;
 import ent.FSMState;
 import ent.Player;
 import ent.enemies.Enemy;
+import ent.enemies.Zombie.MorphState;
 import flixel.FlxObject;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -20,7 +21,7 @@ class Zombie extends Enemy {
 	public var RUNMAX:Int;
 	public var ALERT_RANGE:Int;
 	
-	private var fsm:FSM;
+	public var originalAssetString:String;
 	
 	public function new(X:Float, Y:Float) {
 		super(X, Y);
@@ -29,15 +30,17 @@ class Zombie extends Enemy {
 	private function init(GfxAsset:String):Void {
 		setAnim(GfxAsset);
 		setPhys();
-		fsm = new FSM();
 		fsm.pushState(createIdleState(this));
 	}
 	
-	private function setAnim(GfxAsset:String):Void {
+	public function setAnim(GfxAsset:String, FromMorph:Bool = false):Void {
 		var assetName:String = GfxAsset;
-		if (FlxRandom.chanceRoll())
-			assetName += "_w";
-		assetName += ".png";
+		if (!FromMorph) {
+			if (!FlxRandom.chanceRoll())
+				assetName += "_w";
+			assetName += ".png";
+			originalAssetString = assetName;
+		}
 		loadGraphic(assetName, true, 25, 24);
 		animation.add("idle", [0, 2, 0, 2, 0, 2, 0, 5], 1, true);
 		animation.add("run", [0, 1, 2, 3], 8, true);
@@ -56,8 +59,10 @@ class Zombie extends Enemy {
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
 		
-		if (FlxRandom.chanceRoll())
-			facing = FlxObject.LEFT;
+		if (!FromMorph) {
+			if (FlxRandom.chanceRoll())
+				facing = FlxObject.LEFT;
+		}
 	}
 	
 	private function setPhys():Void {
@@ -85,7 +90,7 @@ class Zombie extends Enemy {
 				});
 			}
 		}
-		else
+		else if (fsm.peak() != MorphState)
 			fsm.pushState(createRunState(this));
 	}
 	
@@ -99,6 +104,10 @@ class Zombie extends Enemy {
 	
 	public function createAttackState(Z:Zombie):FSMState {
 		return new AttackState(Z);
+	}
+	
+	public function createMorphState(Z:Zombie):FSMState {
+		return new MorphState(Z);
 	}
 }
 
@@ -146,7 +155,7 @@ class RunState extends FSMState {
 		
 		var vx:FlxVector = new FlxVector(pPos.x - zPos.x, pPos.y - zPos.y);
 		vx = vx.normalize();
-		vx = vx.scale(RUNSPEED);
+		vx = vx.scale(RUNSPEED * (1.0 - z.freeze));
 		z.acceleration.copyFrom(vx);
 		
 		if (z.animation.name == "run") {
@@ -206,5 +215,48 @@ class AttackState extends FSMState {
 			
 			fsm.popState();
 		}
+	}
+}
+
+class MorphState extends FSMState {
+	
+	public var z:Zombie;
+	
+	private var cancelTimer:FlxTimer;
+	
+	public function new(Z:Zombie) {
+		super();
+		z = Z;
+		
+		z.loadGraphic("assets/images/morph.png", true, 38, 26);
+		var rand = FlxRandom.intRanged(0, 2);
+		z.animation.add("idle", [rand]);
+		z.animation.play("idle");
+		
+		if (rand == 0) { // Cow
+			z.width = 23;
+			z.height = 6;
+			z.offset.set(11, 17);
+		}
+		else if (rand == 1) { // Chicken
+			z.width = 11;
+			z.height = 4;
+			z.offset.set(13, 19);
+		}
+		else if (rand == 2) { // Pig
+			z.width = 14;
+			z.height = 4;
+			z.offset.set(12, 19);
+		}
+		
+		cancelTimer = new FlxTimer(3.0, function(T:FlxTimer) {
+			fsm.popState();
+			z.setAnim(z.originalAssetString, true);
+		});
+	}
+	
+	public function cancelMorph():Void {
+		cancelTimer.cancel();
+		z.setAnim(z.originalAssetString, true);
 	}
 }

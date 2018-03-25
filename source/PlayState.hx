@@ -42,6 +42,8 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
+		
+		Reg.init();
 		Reg.s = this;
 		
 		FlxG.camera.fade(0xff000000, 0.5, true);
@@ -131,7 +133,7 @@ class PlayState extends FlxState {
 		if (FlxG.keys.justPressed.R)
 			FlxG.resetState();
 		else if (FlxG.keys.justPressed.F12) // Hack
-			s.score += 100;
+			s.score += 500;
 		#if sys
 		else if (FlxG.keys.justPressed.ESCAPE)
 			Sys.exit(0);
@@ -143,7 +145,7 @@ class PlayState extends FlxState {
 			transitioningToGameOver = true;
 			p.alive = false;
 			
-			Reg.finalScore = s.score;
+			Reg.finalScore = s.totalScore;
 			
 			FlxG.camera.fade(0xff000000, 1.5, false, function() {
 				FlxG.switchState(new GameOverState());

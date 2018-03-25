@@ -16,6 +16,8 @@ class Weapon {
 	
 	public var dmg:Float = 1;
 	public var reloadTime:Float = 0.5;
+	public var bounce:Float = 0.0;
+	public var freeze:Float = 0.0;
 	
 	private var reload:FlxTimer;
 	
@@ -26,7 +28,7 @@ class Weapon {
 	}
 	
 	public function update():Void {
-		if (FlxG.mouse.justPressed && !Reg.s.cogBtn.containsMouse()) {
+		if (FlxG.mouse.pressed && !Reg.s.cogBtn.containsMouse()) {
 			fire(new FlxPoint(FlxG.mouse.x - p.x, FlxG.mouse.y - p.y));
 		}
 	}
@@ -40,8 +42,10 @@ class Weapon {
 			else
 				p.facing = FlxObject.RIGHT;
 			
-			var cd = new Bullet(dmg);
-			cd.fireTowards(p, Delta.x, Delta.y);
+			var bullet = new Bullet(dmg);
+			bullet.fireTowards(p, Delta.x, Delta.y);
+			bullet.elasticity = bounce;
+			bullet.freeze = freeze;
 		}
 	}
 }

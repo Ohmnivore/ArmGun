@@ -7,30 +7,53 @@ class Reg {
 	static public var finalScore:Int = 0;
 	static public var upgrades:Array<UpgradeInfo> = [];
 	
+	///////////////////////////////////////////////////////////////////////////
+	
 	static public function init():Void {
 		upgrades = [];
 		
-		upgrades.push(new UpgradeInfo("Super semi", 50, "Quick firing rate with moderate damage."));
-		upgrades.push(new UpgradeInfo("Machine gun", 100, "Whirlwhind firing rate with low damage."));
-		upgrades.push(new UpgradeInfo("Rocket launcher", 300, "Snail's pace firing rate with devastating area of effect damage."));
-		upgrades.push(new UpgradeInfo("Mini-bomb ammo", 300, "Bullets deploy small time-activated bombs on impact."));
-		upgrades.push(new UpgradeInfo("Freeze ammo", 100, "Bullets freeze enemies, slowing their movement."));
-		upgrades.push(new UpgradeInfo("Morph ammo", 200, "Bullets have a chance to morph enemies into farm animals."));
-		upgrades.push(new UpgradeInfo("Bouncing ammo", 200, "Bullets bounce off of objects."));
-		upgrades.push(new UpgradeInfo("Piercing ammo", 200, "Bullets pass through enemies."));
+		upgrades.push(new UpgradeInfo(enableSuperSemi, "Super semi", 50, "Quick firing rate with moderate damage."));
+		upgrades.push(new UpgradeInfo(enableMachineGun, "Machine gun", 100, "Whirlwhind firing rate with low damage."));
+		upgrades.push(new UpgradeInfo(enableFreezeAmmo, "Freeze ammo", 100, "Bullets freeze enemies, slowing their movement."));
+		upgrades.push(new UpgradeInfo(enableMorphAmmo, "Morph ammo", 200, "Bullets have a chance to morph enemies into farm animals."));
+		upgrades.push(new UpgradeInfo(enableBouncingAmmo, "Bouncing ammo", 200, "Bullets bounce off of objects."));
 		
 		upgrades.sort(UpgradeInfo.compareCost);
+	}
+	
+	static private function enableSuperSemi():Void {
+		s.p.weapon.dmg = 0.75;
+		s.p.weapon.reloadTime = 0.25;
+	}
+	
+	static private function enableMachineGun():Void {
+		s.p.weapon.dmg = 0.1;
+		s.p.weapon.reloadTime = 0.1;
+	}
+	
+	static private function enableFreezeAmmo():Void {
+		s.p.weapon.freeze = 0.5;
+	}
+	
+	static private function enableMorphAmmo():Void {
+		// TODO
+	}
+	
+	static private function enableBouncingAmmo():Void {
+		s.p.weapon.bounce = 0.5;
 	}
 }
 
 class UpgradeInfo {
 	
+	public var enableCallback:Void->Void;
 	public var name:String;
 	public var cost:Int;
 	public var description:String;
 	public var enabled:Bool;
 	
-	public function new(Name:String, Cost:Int, Description:String) {
+	public function new(EnableCallback:Void->Void, Name:String, Cost:Int, Description:String) {
+		enableCallback = EnableCallback;
 		name = Name;
 		cost = Cost;
 		description = Description;

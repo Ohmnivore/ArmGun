@@ -81,8 +81,6 @@ class Main extends Sprite {
 		//FlxG.log.redirectTraces = true;
 		FlxG.log.redirectTraces = false;
 		
-		Reg.init();
-		
 		#if android
 		FlxG.android.preventDefaultBackAction = true;
 		#end

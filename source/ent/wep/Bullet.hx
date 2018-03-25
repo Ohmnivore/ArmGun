@@ -14,6 +14,9 @@ import flixel.util.FlxVector;
 class Bullet extends FlxSprite {
 	
 	public var dmg:Float;
+	public var freeze:Float;
+	
+	private var bounces:Int = 0;
 	
 	public function new(Dmg:Float, X:Float = 0, Y:Float = 0) {
 		super(X, Y, "assets/images/bullet.png");
@@ -28,11 +31,21 @@ class Bullet extends FlxSprite {
 	
 	override public function update():Void {
 		if (isTouching(FlxObject.ANY)) {
-			var explo:BulletExplosion = new BulletExplosion(this);
-			Reg.s.ents.remove(this, true);
-			Reg.s.bullets.remove(this, true);
-			kill();
-			destroy();
+			if (bounces > 0 || elasticity == 0) {
+				var explo:BulletExplosion = new BulletExplosion(this);
+				Reg.s.ents.remove(this, true);
+				Reg.s.bullets.remove(this, true);
+				kill();
+				destroy();
+			}
+			else {
+				var v = new FlxVector();
+				v.set(velocity.x, velocity.y);
+				v = v.normalize();
+				angle = v.degrees;
+				
+				bounces++;
+			}
 		}
 		
 		if (alive)

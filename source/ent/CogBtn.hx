@@ -21,6 +21,17 @@ class CogBtn extends FlxButton {
 	}
 	
 	private function onClick():Void {
+		openShopState();
+	}
+	
+	override public function update():Void {
+		super.update();
+		
+		if (FlxG.keys.justPressed.TAB || FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.F)
+			openShopState();
+	}
+	
+	private function openShopState():Void {
 		Reg.s.openSubState(new ShopState());
 	}
 }

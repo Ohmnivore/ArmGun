@@ -18,6 +18,10 @@ class ZombieSmart extends Zombie {
 		ALERT_RANGE = 32;
 		
 		init("assets/images/zombie_smart");
+	}
+	
+	override public function setAnim(GfxAsset:String, FromMorph:Bool = false):Void {
+		super.setAnim(GfxAsset, FromMorph);
 		
 		animation.get("attack").frameRate = 24;
 	}
@@ -48,7 +52,7 @@ class SmartRunState extends FSMState {
 		
 		var vx = new FlxVector(pPos.x - zPos.x, pPos.y - zPos.y);
 		vx = vx.normalize();
-		vx = vx.scale(RUNSPEED);
+		vx = vx.scale(RUNSPEED * (1.0 - z.freeze));
 		z.velocity.copyFrom(vx);
 		
 		if (z.animation.name == "run") {
