@@ -40,7 +40,7 @@ class ESpawn extends FlxObject {
 		var spawnDelay = FlxRandom.floatRanged(minSpawnDelay, maxSpawnDelay);
 		
 		new FlxTimer(spawnDelay, function(T:FlxTimer){
-			trace(maxEnemies, Reg.s.numEnemies);
+			//trace(maxEnemies, Reg.s.numEnemies);
 			if (Reg.s.numEnemies <= maxEnemies)
 				spawn();
 			scheduleSpawnTimer();
