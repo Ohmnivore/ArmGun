@@ -76,15 +76,17 @@ class Player extends FlxSprite {
 	private function updateControls():Void {
 		var vx:FlxVector = new FlxVector(0, 0);
 		
-		if (FlxG.keys.pressed.A || FlxG.keys.pressed.LEFT)
-			vx.x = -1;
-		else if (FlxG.keys.pressed.D || FlxG.keys.pressed.RIGHT)
-			vx.x = 1;
-		
-		if (FlxG.keys.pressed.W || FlxG.keys.pressed.UP)
-			vx.y = -1;
-		else if (FlxG.keys.pressed.S || FlxG.keys.pressed.DOWN)
-			vx.y = 1;
+		if (alive) {
+			if (FlxG.keys.pressed.A || FlxG.keys.pressed.LEFT)
+				vx.x = -1;
+			else if (FlxG.keys.pressed.D || FlxG.keys.pressed.RIGHT)
+				vx.x = 1;
+			
+			if (FlxG.keys.pressed.W || FlxG.keys.pressed.UP)
+				vx.y = -1;
+			else if (FlxG.keys.pressed.S || FlxG.keys.pressed.DOWN)
+				vx.y = 1;
+		}
 		
 		if (vx.x != 0.0 || vx.y != 0.0) {
 			vx = vx.normalize();

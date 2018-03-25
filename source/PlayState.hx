@@ -35,11 +35,15 @@ class PlayState extends FlxState {
 	public var hud:FlxGroup;
 	public var healthBar:HealthBar;
 	
+	private var transitioningToGameOver:Bool;
+	
 	override public function create():Void {
 		super.create();
 		Reg.s = this;
 		
-		FlxG.camera.fade(0x00000000, 0.5, true);
+		FlxG.camera.fade(0xff000000, 0.5, true);
+		
+		transitioningToGameOver = false;
 		
 		FlxG.mouse.visible = false;
 		FlxG.camera.bgColor = 0xff222034;
@@ -104,6 +108,7 @@ class PlayState extends FlxState {
 		FlxG.collide(ents, map);
 		
 		handleGeneralInput();
+		pollGameOver();
 	}
 	
 	private function enemyHit(Bullet:FlxBasic, Enem:FlxBasic):Void {
@@ -114,7 +119,22 @@ class PlayState extends FlxState {
 	private function handleGeneralInput():Void {
 		if (FlxG.keys.justPressed.R)
 			FlxG.resetState();
+		#if sys
 		else if (FlxG.keys.justPressed.ESCAPE)
 			Sys.exit(0);
+		#end
+	}
+	
+	private function pollGameOver():Void {
+		if (Reg.s.healthBar.lives <= 0 && !transitioningToGameOver) {
+			transitioningToGameOver = true;
+			p.alive = false;
+			
+			Reg.finalScore = s.score;
+			
+			FlxG.camera.fade(0xff000000, 1.5, false, function() {
+				FlxG.switchState(new GameOverState());
+			});
+		}
 	}
 }
