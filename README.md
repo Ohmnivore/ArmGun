@@ -1,7 +1,7 @@
 # ArmGun
 **Upgrade your ArmGun with funds. Eliminate intruders to acquire funds.**
 
-Made in more or less 48 hours for 2018's [http://mcgamejam.com](http://mcgamejam.com).
+Made in more or less 48 hours for 2018's [http://mcgamejam.com](http://mcgamejam.com) ([https://itch.io/jam/mcgame-jam-2018](https://itch.io/jam/mcgame-jam-2018)).
 
 The theme was "**This isn't even my final form**".
 
